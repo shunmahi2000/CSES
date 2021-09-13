@@ -11,32 +11,33 @@ using namespace __gnu_pbds;
 #define vvi vector<vector<int>>
 #define ll long long
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds;
-set<string> st;
-void solve(string s, int cur)
+ll ans = INT_MAX;
+ll mxSum;
+void solve(vector<ll> &v, ll cur, ll sum)
 {
-    if (cur == s.size())
+    if (cur == v.size())
     {
-        st.insert(s);
+        ll newValue = mxSum - sum;
+        ans = min(ans, abs(newValue - sum));
         return;
     }
-    int n = s.size();
-    for (int i = cur; i < n; i++)
-    {
-        swap(s[i], s[cur]);
-        solve(s, cur + 1);
-        swap(s[i], s[cur]);
-    }
+    solve(v, cur + 1, sum + v[cur]);
+    solve(v, cur + 1, sum);
 }
 int main()
 {
-    st.clear();
-    string s;
-    cin >> s;
-    string ip = s;
-    solve(s, 0);
-    cout << st.size() << endl;
-    for (auto it : st)
-        cout << it << endl;
+    ll n;
+    cin >> n;
+    vector<ll> v(n);
+    ll sum = 0;
+    for (int i = 0; i < n; i++)
+    {
+        cin >> v[i];
+        sum += v[i];
+    }
+    mxSum = sum;
+    solve(v, 0, 0);
+    cout << ans << endl;
     return 0;
 }
 /*

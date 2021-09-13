@@ -1,0 +1,1 @@
+{"name":"Local: Apartments","url":"e:\\Learnings\\COE C++\\CSESS problem set\\Searching and sorting\\Apartments.cpp","tests":[{"id":1629778675263,"input":"4 3 5\n60 45 80 60\n30 60 75","output":"1"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"e:\\Learnings\\COE C++\\CSESS problem set\\Searching and sorting\\Apartments.cpp","group":"local","local":true}

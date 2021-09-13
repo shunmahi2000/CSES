@@ -1,0 +1,1 @@
+{"name":"Local: Message Route","url":"e:\\Learnings\\COE C++\\CSESS problem set\\Graph Algorithms\\Message Route.cpp","tests":[{"id":1630424749849,"input":"5 5\n1 2\n1 3\n1 4\n2 3\n5 4\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"e:\\Learnings\\COE C++\\CSESS problem set\\Graph Algorithms\\Message Route.cpp","group":"local","local":true}

@@ -11,32 +11,36 @@ using namespace __gnu_pbds;
 #define vvi vector<vector<int>>
 #define ll long long
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds;
-set<string> st;
-void solve(string s, int cur)
-{
-    if (cur == s.size())
-    {
-        st.insert(s);
-        return;
-    }
-    int n = s.size();
-    for (int i = cur; i < n; i++)
-    {
-        swap(s[i], s[cur]);
-        solve(s, cur + 1);
-        swap(s[i], s[cur]);
-    }
-}
+
 int main()
 {
-    st.clear();
-    string s;
-    cin >> s;
-    string ip = s;
-    solve(s, 0);
-    cout << st.size() << endl;
-    for (auto it : st)
-        cout << it << endl;
+    int n, m;
+    cin >> n >> m;
+    map<int, int> priceOfTicket;
+    vi customers(m);
+    for (int i = 0; i < n; i++)
+    {
+        int a;
+        cin >> a;
+        priceOfTicket[a]++;
+    }
+    for (int i = 0; i < m; i++)
+        cin >> customers[i];
+    for (int i = 0; i < m; i++)
+    {
+        auto it = priceOfTicket.upper_bound(customers[i]);
+        if (it == priceOfTicket.begin())
+            cout << "-1" << endl;
+        else
+        {
+            it--;
+            cout << (it->first) << endl;
+            int val = it->first;
+            priceOfTicket[val]--;
+            if (priceOfTicket[val] == 0)
+                priceOfTicket.erase(val);
+        }
+    }
     return 0;
 }
 /*

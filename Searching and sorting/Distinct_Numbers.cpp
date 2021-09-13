@@ -11,32 +11,21 @@ using namespace __gnu_pbds;
 #define vvi vector<vector<int>>
 #define ll long long
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds;
-set<string> st;
-void solve(string s, int cur)
-{
-    if (cur == s.size())
-    {
-        st.insert(s);
-        return;
-    }
-    int n = s.size();
-    for (int i = cur; i < n; i++)
-    {
-        swap(s[i], s[cur]);
-        solve(s, cur + 1);
-        swap(s[i], s[cur]);
-    }
-}
+
 int main()
 {
-    st.clear();
-    string s;
-    cin >> s;
-    string ip = s;
-    solve(s, 0);
+    ll n;
+    cin >> n;
+    set<ll> st;
+    //can't use unorderded set as in worst Case its time complexity becomes O(n),
+    // O(n) because of Hashing Techniques like linear probing,quadratic probing,double hashing etc.
+    for (ll i = 0; i < n; i++)
+    {
+        ll a;
+        cin >> a;
+        st.insert(a);
+    }
     cout << st.size() << endl;
-    for (auto it : st)
-        cout << it << endl;
     return 0;
 }
 /*

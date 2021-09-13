@@ -1,0 +1,8 @@
+{
+    "cmake.configureOnOpen": false,
+    "files.associations": {
+        "*.js": "javascriptreact",
+        "valarray": "cpp",
+        "iostream": "cpp"
+    }
+}
