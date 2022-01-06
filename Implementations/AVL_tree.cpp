@@ -144,7 +144,7 @@ class AVL
                 // cout << "YES" << endl;
                 // return r;
             }
-            return NULL;
+          
         }
         if (r->data > data)
             r->left = deleteNode(data, r->left);
