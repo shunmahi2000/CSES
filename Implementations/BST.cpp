@@ -78,7 +78,6 @@ class BST
                 root->right = deleteNode(t->data, root->right);
                 return root;
             }
-            return NULL;
         }
         if (root->data > data)
             root->left = deleteNode(data, root->left);
