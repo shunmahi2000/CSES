@@ -144,7 +144,7 @@ class AVL
                 // cout << "YES" << endl;
                 // return r;
             }
-            return NULL;
+          
         }
         if (r->data > data)
             r->left = deleteNode(data, r->left);
@@ -156,7 +156,7 @@ class AVL
         int bf = getBalanceFactor(r);
         // cout << bf << endl;
         //  left left
-        if (bf > 1 && getBalanceFactor(r->right) >= 0)
+        if (bf > 1 && getBalanceFactor(r->left) >= 0)
         {
             return rightRotation(r);
         }
