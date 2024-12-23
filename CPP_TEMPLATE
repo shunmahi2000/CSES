@@ -1,0 +1,307 @@
+/* HIMANSHU YADAV */
+/* MAC INSTALLATION
+
+1. Install homebrew
+2. brew install gcc
+3. brew list --versions gcc - to check gcc version
+4. g++-14 --version - it will show it is installed by homebrew
+5. g++ --version - it will show clang that comes by default with mac machines we dont need this, we need homebrew g++
+6. cd /opt/homebrew/bin
+7. ln -s g++-14 g++ - it will override the clang with homebrew
+
+SETUP DONE - https://youtube.com/watch?v=CZ7Mf7qxbIU
+  */
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <map>
+#include <set>
+#include <algorithm>
+#include <string>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+using namespace std;
+using namespace __gnu_pbds;
+typedef long long ll;
+typedef long double ld;
+typedef pair<int, int> p32;
+typedef pair<ll, ll> p64;
+typedef pair<double, double> pdd;
+typedef vector<ll> v64;
+typedef vector<int> v32;
+typedef vector<char> vchar;
+typedef vector<bool> vbool;
+typedef vector<vector<int>> vv32;
+typedef vector<vector<ll>> vv64;
+typedef vector<vector<p64>> vvp64;
+typedef vector<vector<char>> vvchar;
+typedef vector<vector<bool>> vvbool;
+typedef vector<p64> vp64;
+typedef vector<p32> vp32;
+ll M = 1000000007;
+double eps = 1e-12;
+#define forn(i, e) for (ll i = 0; i < e; i++)
+#define forsn(i, s, e) for (ll i = s; i < e; i++)
+#define rforn(i, s) for (ll i = s; i >= 0; i--)
+#define rforsn(i, s, e) for (ll i = s; i >= e; i--)
+#define pb push_back
+#define ff first
+#define ss second
+#define INF 2e18
+#define fast_cin()                    \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(NULL);                    \
+    cout.tie(NULL)
+#define all(x) (x).begin(), (x).end()
+#define sz(x) ((ll)(x).size())
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds;
+void debg(ll a, ll b = 0, ll c = 0) { cout << a << ' ' << b << ' ' << c << endl; }
+void debgv(v64 &v)
+{
+    forn(i, v.size()) cout << v[i] << ' ';
+    cout << endl;
+}
+v64 d4x = {-1, 0, 0, 1}, d4y = {0, 1, -1, 0};
+v64 d8x = {-1, -1, -1, 0, 0, 1, 1, 1}, d8y = {-1, 0, 1, -1, 1, -1, 0, 1};
+vbool primes;
+ll gcd(ll a, ll b) { return b == 0 ? a : gcd(b, a % b); }
+/*----Sieve----*/
+void sieve(ll n)
+{
+    primes.resize(n + 1, true);
+    primes[0] = false, primes[1] = false;
+    for (int i = 2; i <= n; i++)
+    {
+        if (primes[i])
+        {
+            for (int j = i * i; j <= n; j += i)
+            {
+                primes[j] = false;
+            }
+        }
+    }
+}
+/*----x^N----*/
+ll power(ll x, ll n)
+{
+    ll res = 1;
+    while (n)
+    {
+        if (n & 1)
+        {
+            res = ((res) * (x));
+        }
+        x = ((x) * (x));
+        n = n >> 1;
+    }
+    return res;
+}
+/*----Binomial----*/
+ll binomial(ll n, ll k)
+{
+    if (k == 0 || k == n)
+        return 1;
+    if (k > n - k)
+        k = n - k;
+    ll ans = 1;
+    for (ll i = 0; i < k; i++)
+    {
+        ans *= (n - i);
+        ans /= (i + 1);
+    }
+    return ans;
+}
+/*----Fibonacci----*/
+ll fibonacci(ll n)
+{
+    map<ll, ll> mp;
+    mp[0] = 0, mp[1] = 1;
+    if (mp.find(n) != mp.end())
+    {
+        return mp[n];
+    }
+    ll k = n / 2;
+    if (n % 2 == 0)
+        return mp[n] = ((fibonacci(k) * fibonacci(k)) + (fibonacci(k - 1) * fibonacci(k - 1))) % M;
+    else
+        return mp[n] = ((fibonacci(k) * fibonacci(k + 1)) + (fibonacci(k - 1) * fibonacci(k))) % M;
+    return 0;
+}
+/*----Euclid----*/
+void extendedEuclid(ll a, ll b, ll &x, ll &y)
+{
+    if (b == 0)
+    {
+        x = 1, y = 0;
+        return;
+    }
+    extendedEuclid(b, a % b, x, y);
+    ll cx = y, cy = x - (a / b) * y;
+    x = cx, y = cy;
+}
+ll modInverse(ll a, ll b)
+{
+    ll x = 1, y = 0;
+    extendedEuclid(a, b, x, y);
+    return (x + b) % b;
+}
+ll crt(vv64 &v)
+{
+    ll ans = 0, n = v.size(), m = 1;
+    forn(i, n) m *= v[i][0];
+    forn(i, n)
+    {
+        ll term = 1;
+        for (ll j = 0; j < i; j++)
+        {
+            term *= v[j][0];
+            term *= modInverse(v[j][0], v[i][0]);
+            term %= m;
+        }
+        ans += (term * (v[i][1] + m - ans)) % m;
+        ans %= m;
+    }
+    return ans;
+}
+/*----DSU----*/
+ll dsu_find(ll a, v64 &par)
+{
+    if (par[a] == a)
+        return a;
+    par[a] = dsu_find(par[a], par);
+    return par[a];
+}
+void dsu_union(ll a, ll b, v64 &par, v64 &rank)
+{
+    ll pa = dsu_find(a, par), pb = dsu_find(b, par);
+    if (pa == pb)
+        return;
+    else
+    {
+        int ra = rank[pa], rb = rank[pb];
+        if (ra <= rb)
+        {
+            par[pa] = pb;
+            rank[pa]++;
+        }
+        else
+        {
+            par[pb] = pa;
+            rank[pb]++;
+        }
+    }
+}
+/*----SEGMENT TREE----*/
+void build(v64 &arr, v64 &tree)
+{
+    ll n = arr.size();
+    for (ll i = 0; i < n; i++)
+        tree[n + i] = arr[i];
+    for (ll i = n - 1; i > 0; --i)
+        tree[i] = tree[i << 1] + tree[i << 1 | 1];
+}
+void updateTreeNode(ll p, ll value, v64 &tree, ll n)
+{
+    tree[p + n] = value, p += n;
+    for (int i = p; i > 1; i >>= 1)
+        tree[i >> 1] = tree[i] + tree[i ^ 1];
+}
+ll query(ll l, ll r, v64 &tree, ll n)
+{
+    ll res = 0;
+    for (l += n, r += n; l < r; l >>= 1, r >>= 1)
+    {
+        if (l & 1)
+            res += tree[l++];
+        if (r & 1)
+            res += tree[--r];
+    }
+    return res;
+}
+void dfs(ll par, ll cur, vv64 &gr, v64 &dp)
+{
+
+    for (auto &it : gr[cur])
+    {
+        if (it != par)
+        {
+
+            dfs(cur, it, gr, dp);
+            dp[cur] += dp[it];
+        }
+    }
+    if (dp[cur] == 0)
+        dp[cur] = 1;
+}
+
+int partitioin(v64 &v, int s, int e)
+{
+    int val = v[e];
+    int cnt = 0;
+    forsn(i, s, e)
+    {
+        if (v[i] <= val)
+            cnt++;
+    }
+    swap(v[e], v[s + cnt]);
+    int i = s, j = s + cnt + 1;
+    while (i < s + cnt && j <= e)
+    {
+        while (i < s + cnt && v[i] <= val)
+        {
+            i++;
+        }
+        while (j <= e && v[j] > val)
+            j++;
+
+        if (i < s + cnt && j <= e)
+            swap(v[i], v[j]);
+    }
+    return s + cnt;
+}
+void quick_sort(v64 &v, int s, int e)
+{
+    if (s >= e)
+        return;
+    int p = partitioin(v, s, e);
+    quick_sort(v, s, p - 1);
+    quick_sort(v, p + 1, e);
+}
+void sort(vector<ll> &v)
+{
+    // quick sort
+
+    quick_sort(v, 0, sz(v) - 1);
+}
+
+void solve()
+{
+    int n;
+    cin >> n;
+    vector<ll> v;
+    forn(i, n)
+    {
+        ll a;
+        cin >> a;
+        v.push_back(a);
+    }
+
+    sort(v);
+    debgv(v);
+}
+
+int main()
+{
+    fast_cin();
+    ll t;
+    cin >> t;
+    for (int it = 1; it <= t; it++)
+    {
+        solve();
+    }
+    return 0;
+}
